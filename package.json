@@ -2,18 +2,26 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "mongoose": "^8.8.4"
   },
   "name": "boilerplate-project-exercisetracker",
   "version": "1.0.1",
   "description": "This is the boilerplate for the Exercise Tracker project. Instructions for building your project can be found at https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/exercise-tracker",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["freecodecamp", "api", "nodejs", "express", "cors", "dotenv"],
+  "keywords": [
+    "freecodecamp",
+    "api",
+    "nodejs",
+    "express",
+    "cors",
+    "dotenv",
+    "mongoose"
+  ],
   "author": "Lucas Moreno",
   "license": "ISC"
 }
