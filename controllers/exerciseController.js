@@ -3,50 +3,44 @@ const Exercise = require('../models/exercise');
 const mongoose = require('mongoose'); // Importar mongoose
 
 const createExercise = async (req, res) => {
-    const { _id } = req.params;  // ID del usuario
+    const { _id } = req.params; // ID del usuario
     const { description, duration, date } = req.body;
 
     try {
-        // Comprobamos que el usuario exista
+        // Buscar el usuario por ID
         const user = await User.findById(_id);
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
 
-        // Si no se especifica fecha, usamos la actual
+        // Validar y establecer la fecha
         const exerciseDate = date ? new Date(date).toDateString() : new Date().toDateString();
 
-        // Creamos el ejercicio
-        const newExercise = new Exercise({
+        // Crear y guardar el nuevo ejercicio
+        const newExercise = await Exercise.create({
             description,
-            duration,
+            duration: parseInt(duration, 10), // Asegurarse de que duration sea un número
             date: exerciseDate
         });
 
-        // Guardamos el ejercicio en la base de datos
-        await newExercise.save();
-
-        // Añadimos el ObjectId del ejercicio al usuario
+        // Agregar el ejercicio al usuario
         user.exercises.push(newExercise._id);
-
-        // Guardamos el usuario con el ejercicio añadido
         await user.save();
 
-        // Enviamos la respuesta con los datos del usuario y el ejercicio
+        // Construir y enviar la respuesta
         res.json({
             username: user.username,
-            _id: user._id,
-            exercise: {
-                description,
-                duration,
-                date: exerciseDate
-            }
+            description: newExercise.description,
+            duration: newExercise.duration,
+            date: newExercise.date,
+            _id: user._id.toString()
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error al agregar el ejercicio" });
     }
 };
+
 
 
 
